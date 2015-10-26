@@ -92,6 +92,16 @@ size_t WordSet::potential_wordcount() const
 	return count;
 }
 
+std::vector<char> WordSet::get_knowns() const
+{
+	return knowns;
+}
+
+std::vector<char> WordSet::get_unused() const
+{
+	return unuseds;
+}
+
 WordSet::WordSet()
 {
 }

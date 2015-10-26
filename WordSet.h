@@ -30,6 +30,9 @@ public:
 
 	size_t	potential_wordcount() const; // see how many potential words are marked alive
 
+	std::vector<char> get_knowns() const; // get known characters
+	std::vector<char> get_unused() const; // get characters known to be unused
+
 	WordSet();
 	~WordSet();
 

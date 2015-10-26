@@ -210,7 +210,7 @@ void Commands::Analyze::call(WordSet& wordset, std::string args)
 	// compare by how many words we can knock off
 	auto sortOrder = [](pair<char, size_t> a, pair<char, size_t> b) -> bool
 	{
-		return a.second < b.second;
+		return a.second > b.second;
 	};
 
 	sort(frequencies.begin(), frequencies.end(), sortOrder);
@@ -218,10 +218,30 @@ void Commands::Analyze::call(WordSet& wordset, std::string args)
 	size_t n = wordset.potential_wordcount();
 	float nfloat = static_cast<float>(n);
 
-	cout << "Letter \t Frequency \t RFreq.\n";
+	vector<char> dontShow = wordset.get_knowns();
+	vector<char> unuseds = wordset.get_unused();
+	dontShow.insert(dontShow.end(), unuseds.begin(), unuseds.end());
+
+	io.out << "Letter \t Frequency \t RFreq.\n";
 	for (auto kt: frequencies)
 	{
-		io.out << kt.first << " \t " << kt.second << " \t ";
+		bool skip = false;
+
+		for (auto letter: dontShow)
+		{
+			if (kt.first == letter)
+			{
+				skip = true;
+				break;
+			}
+		}
+
+		if (skip)
+		{
+			continue;
+		}
+
+		io.out << "  " << kt.first << "   \t " << setw(9) << kt.second << " \t ";
 		if (n == 0)
 		{
 			io.out << "  -  ";
