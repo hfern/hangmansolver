@@ -22,13 +22,14 @@ public:
 	const CommandMap* Commands() const;
 
 	// Template function to allow easy registration of polymorphic commands 
-	template <typename CommandType>
-	void RegisterCommand(std::string name)
+	// Use by runner.RegisterCommand<MyCustomCommandClass>("calledWithThisName");
+	template <typename CommandClassName>
+	void RegisterCommand(std::string commandName)
 	{
-		Command* comm = new CommandType(ioh);
+		Command* comm = new CommandClassName(ioh);
 		comm->set_runner(this);
 
-		commands[name] = comm;
+		commands[commandName] = comm;
 	}
 };
 
