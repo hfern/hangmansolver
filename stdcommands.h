@@ -31,6 +31,7 @@ namespace Commands
 		void call(WordSet& wordset, std::string args) override;
 	};
 
+	// list the remaining potential words
 	class Words: public Command
 	{
 	public:
@@ -39,6 +40,7 @@ namespace Commands
 		void call(WordSet& wordset, std::string args) override;
 	};
 
+	// list the usable commands :)
 	class Help: public Command
 	{
 	public:
@@ -47,6 +49,7 @@ namespace Commands
 		void call(WordSet& wordset, std::string args) override;
 	};
 
+	// list the count of the remaining potential words
 	class Count : public Command
 	{
 	public:
@@ -55,6 +58,7 @@ namespace Commands
 		void call(WordSet& wordset, std::string args) override;
 	};
 
+	// reset the game
 	class Reset : public Command
 	{
 	public:
@@ -63,6 +67,8 @@ namespace Commands
 		void call(WordSet& wordset, std::string args) override;
 	};
 
+	// perform a lexical analysis of remaining words
+	// to find which letter most contain
 	class Analyze : public Command
 	{
 	public:
