@@ -255,3 +255,18 @@ void Commands::Analyze::call(WordSet& wordset, std::string args)
 		io.out << "\n";
 	}
 }
+
+std::pair<std::string, std::string> Commands::Clear::helptext() const
+{
+	return {"", "Clear the console."};
+}
+
+void Commands::Clear::call(WordSet& wordset, std::string args)
+{
+	string prompt = runner->getPrompt();
+
+	for (int i = 0; i < 35; i++)
+	{
+		io.out << prompt << "\n";
+	}
+}

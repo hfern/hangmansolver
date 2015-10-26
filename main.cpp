@@ -40,6 +40,7 @@ int main()
 	cr.RegisterCommand<Commands::Count>("count");
 	cr.RegisterCommand<Commands::Reset>("reset");
 	cr.RegisterCommand<Commands::Analyze>("analyze");
+	cr.RegisterCommand<Commands::Clear>("clear");
 
 	cr.Run();
 

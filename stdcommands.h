@@ -76,4 +76,13 @@ namespace Commands
 		std::pair<std::string, std::string> helptext() const override;
 		void call(WordSet& wordset, std::string args) override;
 	};
+
+	// clear the console
+	class Clear : public Command
+	{
+	public:
+		Clear(IOHelper& ioh) : Command(ioh) {};
+		std::pair<std::string, std::string> helptext() const override;
+		void call(WordSet& wordset, std::string args) override;
+	};
 }

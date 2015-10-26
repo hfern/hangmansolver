@@ -12,14 +12,17 @@ private:
 	CommandMap commands;
 	WordSet& wordset;
 
+	std::string prompt = "~ ";
+
 public:
 
 	CommandRunner(std::istream& in, std::ostream& out, WordSet& wordset);
 	~CommandRunner();
 
 	void Run(); // Interactively run 
+	const CommandMap* Commands() const; // Get the registered commands.
+	std::string getPrompt() const; // get the prompt of the console sess.
 
-	const CommandMap* Commands() const;
 
 	// Template function to allow easy registration of polymorphic commands 
 	// Use by runner.RegisterCommand<MyCustomCommandClass>("calledWithThisName");

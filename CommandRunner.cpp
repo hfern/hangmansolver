@@ -54,3 +54,8 @@ const CommandRunner::CommandMap* CommandRunner::Commands() const
 {
 	return &commands;
 }
+
+std::string CommandRunner::getPrompt() const
+{
+	return prompt;
+}
