@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <map>
 #include <vector>
+#include "Analyzer.h"
 #include <algorithm>
 
 using namespace std;
@@ -177,50 +178,14 @@ std::pair<std::string, std::string> Commands::Analyze::helptext() const
 
 void Commands::Analyze::call(WordSet& wordset, std::string args)
 {
-	map<char, size_t> global_counts;
-	for (char c = 'a'; c > 'z'; c++)
-	{
-		global_counts[c] = 0;
-	}
-
-	for (auto it = wordset.begin(); it != wordset.end(); ++it)
-	{
-		if ((*it).alive)
-		{
-			map<char, size_t> locals;
-
-			for (char c : (*it).word)
-			{
-				locals[c] = 1;
-			}
-
-			for (auto t: locals)
-			{
-				global_counts[t.first]++;
-			}
-		}
-	}
-
-	vector<pair<char, size_t>> frequencies;
-	for (auto kt: global_counts)
-	{
-		frequencies.push_back(kt);
-	}
-
-	// compare by how many words we can knock off
-	auto sortOrder = [](pair<char, size_t> a, pair<char, size_t> b) -> bool
-	{
-		return a.second > b.second;
-	};
-
-	sort(frequencies.begin(), frequencies.end(), sortOrder);
-
-	size_t n = wordset.potential_wordcount();
-	float nfloat = static_cast<float>(n);
+	Analyzer analyzer(wordset);
+	auto frequencies = analyzer.getLetterFrequencies();
 
 	vector<char> dontShow = wordset.get_knowns();
 	vector<char> unuseds = wordset.get_unused();
 	dontShow.insert(dontShow.end(), unuseds.begin(), unuseds.end());
+
+	auto n = wordset.potential_wordcount();
 
 	io.out << "Letter \t Frequency \t RFreq.\n";
 	for (auto kt: frequencies)
@@ -229,7 +194,7 @@ void Commands::Analyze::call(WordSet& wordset, std::string args)
 
 		for (auto letter: dontShow)
 		{
-			if (kt.first == letter)
+			if (kt.letter == letter)
 			{
 				skip = true;
 				break;
@@ -241,15 +206,14 @@ void Commands::Analyze::call(WordSet& wordset, std::string args)
 			continue;
 		}
 
-		io.out << "  " << kt.first << "   \t " << setw(9) << kt.second << " \t ";
+		io.out << "  " << kt.letter << "   \t " << setw(9) << kt.frequency << " \t ";
 		if (n == 0)
 		{
 			io.out << "  -  ";
 		}
 		else
 		{
-			float rfreq = static_cast<float>(kt.second) / nfloat;
-			io.out << fixed << setprecision(3) << rfreq;
+			io.out << fixed << setprecision(3) << kt.relfreq;
 		}
 
 		io.out << "\n";
