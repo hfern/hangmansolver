@@ -231,3 +231,7 @@ _Pvt_Extensions
 
 *.vcxproj
 *.vcxproj.filters
+
+# default binary name
+hmsolv
+
